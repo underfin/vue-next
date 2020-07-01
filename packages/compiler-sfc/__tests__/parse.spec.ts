@@ -136,6 +136,11 @@ h1 { color: red }
     expect(errors.length).toBe(1)
   })
 
+  test('custom compiler w/ template block', () => {
+    const { descriptor } = parse(`<template compiler="vvv"><input></template>`)
+    expect(descriptor.template!.compiler).toBe('vvv')
+  })
+
   test('treat custom blocks as raw text', () => {
     const { errors, descriptor } = parse(`<foo> <-& </foo>`)
     expect(errors.length).toBe(0)

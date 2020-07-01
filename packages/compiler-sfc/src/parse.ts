@@ -31,6 +31,7 @@ export interface SFCBlock {
 export interface SFCTemplateBlock extends SFCBlock {
   type: 'template'
   functional?: boolean
+  compiler?: string
 }
 
 export interface SFCScriptBlock extends SFCBlock {
@@ -239,8 +240,13 @@ function createBlock(
         } else if (p.name === 'module') {
           ;(block as SFCStyleBlock).module = attrs[p.name]
         }
-      } else if (type === 'template' && p.name === 'functional') {
-        ;(block as SFCTemplateBlock).functional = true
+      } else if (type === 'template') {
+        if (p.name === 'functional') {
+          ;(block as SFCTemplateBlock).functional = true
+        }
+        if (p.name === 'compiler') {
+          ;(block as SFCTemplateBlock).compiler = p.value && p.value.content
+        }
       }
     }
   })
